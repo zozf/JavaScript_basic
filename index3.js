@@ -63,3 +63,147 @@ function alertTweetable(text) {
 
 // 動作確認
 alertTweetable('foo');
+
+// 匿名（無名）関数について---------------------------------------------------
+// 匿名関数は関数名がなくても動作する
+
+// 関数式（関数を変数の中に値として入れ込んだもの）
+const isTweetable = function(text) {
+    return text.length <= 140;
+};
+
+// 動作確認
+console.log(isTweetable('foo'))
+
+// コールバック関数について---------------------------------------------------
+// コールバック関数とは引数として渡されている関数のこと
+// 引数に関数を渡すこともできる
+// 高階関数は引数に関数を受け取った関数のこと
+
+// コールバック関数の一般的な構文
+function 高階関数(コールバック関数) {
+
+    // いろいろ処理
+    コールバック関数();
+};
+
+// 料理の例で説明
+
+// 高階関数を使わない例=============================
+function bring(food) {
+
+    if (/* 手洗いが終えたら */) {
+    // 食材を持ってきてもらう処理
+    }
+}
+
+function peer(food) {
+
+    if (/* 手洗いが終えたら */) {
+    // 食材の皮をむく処理
+    }
+}
+
+function cut(food) {
+
+    if (/* 手洗いが終えたら */) {
+    // 食材を切ってもらう処理
+    }
+}
+
+// 高階関数を使う例=================================
+function washed(fn) {
+    if (/* 手洗いが終えたら */) {
+        fn(); // コールバック関数の処理
+    }
+}
+
+function bring(food) {
+    // 食材を持ってきてもらう処理
+}
+
+function peer(food) {
+    // 食材の皮をむく処理
+}
+
+function cut(food) {
+    // 食材を切ってもらう処理
+}
+
+// Twitter の確認の挙動を高階関数で自作してみる--------------------------------
+function unfollow() {
+
+    // アンフォローの処理
+    console.log('フォローを外しました');
+}
+
+function cancelTweet() {
+
+    // ツイートキャンセルの処理
+    console.log('ツイートをキャンセルしました');
+}
+
+// 高階関数（確認の処理）
+function confirmed(fn) {
+    if (window.confirm('実行しますか？')) {
+        fn();
+    }
+}
+
+confirmed(unfollow);
+
+// コールバック関数に匿名関数を用いる（よく使われる）---------------------------
+function confirmed(fn) {
+    if (window.confirm('実行しますか？')) {
+        fn();
+    }
+}
+
+confirmed(function () {
+    console.log('フォローを外しました');
+});
+
+// GitHub のリポジトリ削除の挙動を実装-----------------------------------------
+function confirmed(fn) {
+    const input = window.prompt('実行しますか？');
+
+    // input が'実行'の場合に関数を実行
+    if (input === '実行') {
+        fn();
+    }
+}
+
+confirmed(function () {
+    console.log('リポジトリを削除');
+});
+
+// input を confirmed(function () {}) に渡すパターン---------------------------
+function confirmed(fn) {
+    const input = window.prompt('実行しますか？');
+    fn(input);
+}
+
+confirmed(function (input) {
+    if (input === '実行') {
+        console.log('リポジトリを削除');
+    }
+});
+
+// Documentメソッド（addEventListener）を紹介----------------------------------
+
+// ボタンを押したら何かが起きる処理
+const btn = document.getElementByID('button');
+
+btn.addEventListener('click', function() {
+  console.log('ボタンが押されました');
+});
+
+// JavaScript標準メソッド（forEach）を紹介-------------------------------------
+// forEach とは配列を繰り返し処理すること
+
+// にんじん、ジャガイモ、玉ねぎを順番に出力
+const foods = ['にんじん', 'ジャガイモ', '玉ねぎ'];
+
+foods.forEach(function(food) {
+    console.log(food);
+});
